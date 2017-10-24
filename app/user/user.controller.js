@@ -44,7 +44,7 @@ exports.createUser = function (req,res,next) {
 
 exports.login = function (req,res,next) { 
     userModel.findOne({num: req.body.num}).then(function(results){
-        console.log('results', results);
+        console.log('results', results, req.body);
         var passValidation = bcrypt.compareSync(req.body.pass, results.pass); // true
         if(!passValidation){
             res.status(404).json({success:false, message: "Password is invalid." }); 
@@ -62,6 +62,7 @@ exports.login = function (req,res,next) {
                 });   
         }
     }).catch(function(err){
+        console.log(err);
         res.status(400).json(err); 
     })
 };
