@@ -1,0 +1,23 @@
+<nav class="navbar navbar-default" role="navigation">
+<div class="container-fluid">
+
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+            <span class="glyphicon glyphicon glyphicon-tree-deciduous"></span>
+             AuthNode
+        </a>
+        
+         <ul class="nav navbar-nav">
+             <%if (!userLoggedIn) { %>
+            <li><a href="/signup">Signup</a></li>
+             <% } else { %>
+            <li ><a href="/inventory/create" >Add New Inventory</a></li>
+            <li class="pull-right"><a href="" id="logout">Logout</a></li>
+            <% }  %>
+        </ul>
+    
+       
+    </div>
+
+</div>
+</nav>

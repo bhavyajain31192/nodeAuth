@@ -1,0 +1,34 @@
+
+<h3>Login</h3>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="phone">Phone: </label>
+            <input type="text" id="phone" value="9003435369" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="pass" value="12345" class="form-control">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-info" id="login">Login </button></div>
+    </div>
+</div>
+<script> 
+$(document).ready(function() {
+    $('#login').click(function(e){
+        e.preventDefault;
+        var data = {
+            num: $('#phone').val(),
+            pass: $('#pass').val()
+        }
+        $.post('/login', data, function(data) {
+            console.log(data);
+            if(data.token) {
+                window.location.reload();
+                Cookies.set('access_token', data.token);
+            }
+        })
+    });
+});           
+</script>
