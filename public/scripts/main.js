@@ -45,6 +45,9 @@ $(document).ready(function() {
         }
         $.post('/api/inventory', data, function(data) {
             console.log(data);
+            if(data.redirectTo) {
+                window.location.href = data.redirectTo;
+            }
             
         })
     });

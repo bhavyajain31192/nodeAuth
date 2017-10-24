@@ -25,7 +25,11 @@ exports.createItem = function(req, res, next) {
                     return;
                 }
                 console.log('redirecting...');
-               res.redirect('/');
+               res.send({
+                   success: true,
+                   message: "Inventory Item created Successfully",
+                   redirectTo: '/'
+               });
             });
         }
         else{
