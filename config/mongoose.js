@@ -9,6 +9,7 @@ module.exports = function(){
     require('../app/user/user.model');
     require('../app/access/access.model');
     require('../app/inventory/inventory.model');
+    require('../app/role/role.model');
 
     return db;
 };

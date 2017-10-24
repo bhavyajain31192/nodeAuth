@@ -16,7 +16,7 @@ exports.editInventoryPage = function(req, res, next) {
 
 
 exports.createItem = function(req, res, next) {
-      console.log('creating Item....', req.body);
+      console.log('creating Item....', req.user);
     var item = new inventoryModel(req.body);
     inventoryModel.findOne({ name: req.body.name }, function(err, inventoryDetails){
         console.log('inventoryDetails, ', inventoryDetails);

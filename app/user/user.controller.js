@@ -4,6 +4,7 @@
 
 var userModel= require('mongoose').model('user');
 var accessModel=require('mongoose').model('access');
+var role = require('mongoose').model('role')
 var mongoose = require('mongoose');
 mongoose.Promise = require('q').Promise;
 var jwt = require('jsonwebtoken');
@@ -49,11 +50,11 @@ exports.login = function (req,res,next) {
         if(!passValidation){
             res.status(404).json({success:false, message: "Password is invalid." }); 
         }else{
-            var tokenData = jwt.sign({uid: results._id}, process.env.JWTSIGNATURE,  { expiresIn: '60 days' });
+            var tokenData = jwt.sign({uid: results._id, roles: results.roles }, process.env.JWTSIGNATURE,  { expiresIn: '60 days' });
                 var access = new accessModel({token: tokenData,num: req.body.num});
                 access.save(function(err, accessRes){
                     console.log('session', req.session);
-                    req.session.user = { id: results._id };
+                    req.session.user = { id: results._id};
                     res.locals.user= results
                     res.locals.userLoggedIn = true;
                     
@@ -80,7 +81,11 @@ exports.getUsers = function (req,res,next) {
 
 exports.renderSignupPage = function (req,res,next) {
       console.log('renderingg....');
-      res.render('signup', { userLoggedIn: false });
+      role.find({}, function(err, roles) {
+        
+         res.render('signup', { userLoggedIn: false, roles: roles });
+        
+      });
 };
 
 

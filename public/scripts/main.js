@@ -26,7 +26,8 @@ $(document).ready(function() {
             name: $('#name').val(),
             email: $('#email').val(),
             num: $('#phone').val(),
-            pass: $('#password').val()
+            pass: $('#password').val(),
+            roles: $('input[type="radio"]:checked').val(),
         }
         $.post('/signup', data, function(data) {
             console.log(data);

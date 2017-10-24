@@ -27,6 +27,7 @@ var RegSchema = new schema({
         type : Date, default: Date.now
     },
     address: UserAdd,
+    roles: { type: Array }
 }, { collection: 'user' });
 
 RegSchema.on('error',function(err,data){

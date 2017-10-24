@@ -1,5 +1,6 @@
 var jwt    = require('jsonwebtoken');
 var userModel= require('mongoose').model('user');
+var role= require('mongoose').model('role');
 
 module.exports = function(req, res, next) {
     // check header or url parameters or post parameters for token
@@ -28,8 +29,12 @@ module.exports = function(req, res, next) {
                             message: 'Authentication failed. User not found.'
                         });
                     } else if (user) {
-                        req.user = decoded;
-                        next();
+                        role.find( { "id" : { $in : decoded.roles }  }, function(err, permissions) {
+                            console.log('permissions', permissions);
+                             req.user = decoded;
+                             next();
+                        });
+                       
                     }
 
                 });
