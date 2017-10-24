@@ -5,8 +5,13 @@
 var inventoryModel= require('mongoose').model('inventory');
 
 exports.createInventoryPage = function(req, res, next) {
-    res.render('inventory-create.ejs');
+    res.render('inventory/create.ejs');
 };
+
+exports.editInventoryPage = function(req, res, next) {
+    res.render('inventory/edit.ejs');
+};
+
 
 exports.createItem = function(req, res, next) {
       console.log('creating Item....', req.body);
@@ -19,7 +24,8 @@ exports.createItem = function(req, res, next) {
                     next({Error : err});
                     return;
                 }
-               res.redirect('/')
+                console.log('redirecting...');
+               res.redirect('/');
             });
         }
         else{

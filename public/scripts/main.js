@@ -9,9 +9,9 @@ $(document).ready(function() {
     }
     });
 
-
+    // datatables intialization
+    $('#inventory-list').DataTable();
     //logout
-    $(document).ready(function() {
     $('#logout').click(function(e){
         e.preventDefault;
        
@@ -19,7 +19,6 @@ $(document).ready(function() {
             Cookies.remove('access_token', { path: '' });
         })
     });
-});
     // user Registration
     $('#register').click(function(e){
         e.preventDefault;

@@ -1,5 +1,25 @@
-<ul>
-    <% items.forEach(function(item) { %>
-        <li><%= item.name %> - (<%= item.qty %>)</li>
+<table id="inventory-list" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        <% items.forEach(function(item) { %>
+        <tr>
+            <td><%= item.name %> </td>
+            <td><%= item.qty %></td>
+            <td> <span title="Edit this item" class="edit glyphicon glyphicon-edit"></span></td>
+        </tr>
     <% }); %>
-</ul>
+        </tbody>
+</table>
