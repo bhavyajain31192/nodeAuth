@@ -56,3 +56,19 @@ exports.editItem = function(req, res, next) {
         });
     });
 };
+
+exports.deleteItem = function(req, res, next) {
+    console.log('Deleting Item');
+    inventoryModel.findByIdAndRemove({_id: req.params.id}, function(err, data) {
+        if(err) {
+            next({Error : err});
+            return;
+        }
+        console.log('redirecting...', data);
+        res.send({
+            success: true,
+            message: "Inventory Item deleted Successfully",
+            redirectTo: '/'
+        });
+    });
+}

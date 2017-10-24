@@ -23,5 +23,7 @@ module.exports = function (app) {
     .post(inventoryController.createItem);
     app.route('/api/inventory/:id')
     .post(inventoryController.editItem);
+    app.route('/api/inventory/:id')
+    .delete(inventoryController.deleteItem);
 
 };

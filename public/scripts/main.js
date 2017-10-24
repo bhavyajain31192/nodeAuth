@@ -67,4 +67,17 @@ $(document).ready(function() {
             
         })
     });
+    // inventory deletion
+     $('.deleteInventoryItem').click(function(e){
+        $.ajax({
+            url: '/api/inventory/'+$(this).attr('item'),
+            type: 'DELETE',
+            success: function(data) {
+            console.log(data);
+            if(data.redirectTo) {
+                window.location.href = data.redirectTo;
+            }
+            }
+         });
+    });
 });    

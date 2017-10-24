@@ -20,7 +20,7 @@
             <td><%= item.qty %></td>
             <td> <a title="Edit this item" href=<%= '/inventory/edit/'+item._id %> class="edit fa-primary glyphicon glyphicon-edit"></a>
             &nbsp;
-             <a title="Delete this item"  id=<%= item._id %> class="edit bg-danger glyphicon glyphicon-trash"></a></td>
+             <a title="Delete this item"  item=<%= item._id %> class="deleteInventoryItem bg-danger glyphicon glyphicon-trash"></a></td>
         </tr>
     <% }); %>
         </tbody>
