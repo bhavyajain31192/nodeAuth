@@ -18,9 +18,9 @@
         <tr>
             <td><%= item.name %> </td>
             <td><%= item.qty %></td>
-            <td> <span title="Edit this item" class="edit fa-primary glyphicon glyphicon-edit"></span>
+            <td> <a title="Edit this item" href=<%= '/inventory/edit/'+item._id %> class="edit fa-primary glyphicon glyphicon-edit"></a>
             &nbsp;
-             <span title="Delete this item" class="edit bg-danger glyphicon glyphicon-trash"></span></td>
+             <a title="Delete this item"  id=<%= item._id %> class="edit bg-danger glyphicon glyphicon-trash"></a></td>
         </tr>
     <% }); %>
         </tbody>

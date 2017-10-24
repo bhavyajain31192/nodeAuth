@@ -11,15 +11,17 @@ module.exports = function (app) {
             res.locals.userLoggedIn = true;
             return inventoryController.createInventoryPage(req, res, next);
         });
-    app.route('/inventory/edit')
+    app.route('/inventory/edit/:id')
         .get(function(req, res, next) {
             if(!req.session.user) {
                 return res.redirect('/');
             }
             res.locals.userLoggedIn = true;
             return inventoryController.editInventoryPage(req, res, next);
-        }); 
+        })
     app.route('/api/inventory')
     .post(inventoryController.createItem);
+    app.route('/api/inventory/:id')
+    .post(inventoryController.editItem);
 
 };

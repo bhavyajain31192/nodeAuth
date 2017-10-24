@@ -51,4 +51,20 @@ $(document).ready(function() {
             
         })
     });
+
+    // inventory updation
+     $('#editInventoryItem').click(function(e){
+        e.preventDefault;
+        var data = {
+            name: $('#name').val(),
+            qty: $('#qty').val()
+        }
+        $.post('/api/inventory/'+$('#inventory_id').val(), data, function(data) {
+            console.log(data);
+            if(data.redirectTo) {
+                window.location.href = data.redirectTo;
+            }
+            
+        })
+    });
 });    

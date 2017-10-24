@@ -9,7 +9,9 @@ exports.createInventoryPage = function(req, res, next) {
 };
 
 exports.editInventoryPage = function(req, res, next) {
-    res.render('inventory/edit.ejs');
+    inventoryModel.findOne({_id: req.params.id }, function(err, inventoryDetails){
+     res.render('inventory/edit.ejs', {inventoryDetails});
+    });
 };
 
 
@@ -36,4 +38,21 @@ exports.createItem = function(req, res, next) {
               res.status(400).json({success: false, message: "Items already exists" });
         }
     })
+};
+
+exports.editItem = function(req, res, next) {
+    console.log('updating Item', req.body);
+    inventoryModel.findByIdAndUpdate(req.params.id, {name: req.body.name, qty: req.body.qty }, {new: true}, function(err, model) {
+        console.log('after updations', model);
+        if(err) {
+            next({Error : err});
+            return;
+        }
+        console.log('redirecting...');
+        res.send({
+            success: true,
+            message: "Inventory Item edited Successfully",
+            redirectTo: '/'
+        });
+    });
 };
