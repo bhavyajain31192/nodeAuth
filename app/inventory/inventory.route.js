@@ -1,5 +1,5 @@
 /**
- * Created by bhavya on 8/4/16.
+ * Created by Bhavya on 22/10/17.
  */
 var inventoryController= require('./inventory.controller.js');
 module.exports = function (app) {

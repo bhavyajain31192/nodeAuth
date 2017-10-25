@@ -1,3 +1,14 @@
+The Project is designed to handle authentication functionality with JWT.
+
+Installation
+
+A fresh installation of the project will usually involve the following steps:
+
+* Cloning the repository with git clone URL
+* Running npm install at the project root.
+* create .env file in root directory of the project.
+* run node server.js
+
 # nodeAuth
 pages: 
 
@@ -10,7 +21,6 @@ Post
 /login
 /signup
 /logout
-
 
 
 Secured routes
