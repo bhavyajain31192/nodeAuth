@@ -16,17 +16,14 @@ exports.editInventoryPage = function(req, res, next) {
 
 
 exports.createItem = function(req, res, next) {
-      console.log('creating Item....', req.user);
     var item = new inventoryModel(req.body);
     inventoryModel.findOne({ name: req.body.name }, function(err, inventoryDetails){
-        console.log('inventoryDetails, ', inventoryDetails);
         if(!inventoryDetails){
             item.save(function (err, results) {
                 if(err) {
                     next({Error : err});
                     return;
                 }
-                console.log('redirecting...');
                res.send({
                    success: true,
                    message: "Inventory Item created Successfully",
@@ -41,14 +38,11 @@ exports.createItem = function(req, res, next) {
 };
 
 exports.editItem = function(req, res, next) {
-    console.log('updating Item', req.body);
     inventoryModel.findByIdAndUpdate(req.params.id, {name: req.body.name, qty: req.body.qty }, {new: true}, function(err, model) {
-        console.log('after updations', model);
         if(err) {
             next({Error : err});
             return;
         }
-        console.log('redirecting...');
         res.send({
             success: true,
             message: "Inventory Item edited Successfully",
@@ -58,13 +52,11 @@ exports.editItem = function(req, res, next) {
 };
 
 exports.deleteItem = function(req, res, next) {
-    console.log('Deleting Item');
     inventoryModel.findByIdAndRemove({_id: req.params.id}, function(err, data) {
         if(err) {
             next({Error : err});
             return;
         }
-        console.log('redirecting...', data);
         res.send({
             success: true,
             message: "Inventory Item deleted Successfully",

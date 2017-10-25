@@ -34,5 +34,4 @@ RegSchema.on('error',function(err,data){
     next(err);
     return;
 })
-console.log('adding Schema..........');
 mongoose.model('user', RegSchema);

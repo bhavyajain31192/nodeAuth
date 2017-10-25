@@ -19,7 +19,6 @@ module.exports = function (app) {
             res.status(200).json({user : req.user});
         });
      app.post('/logout',function(req,res) {
-         console.log('logging out..', req.session);
         req.session.destroy(function(err) {
             if(err) {
                 console.log(err);

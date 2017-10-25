@@ -14,8 +14,6 @@ var session = require('express-session');
 
 var authorizeUser = require('../app/middlewares/auth')
 
-console.log('resolving', path.resolve('public/scripts'));
-console.log(path.resolve('../public'));
 module.exports = function(){
     var app = express();
     app.set('view engine', 'ejs');
@@ -38,11 +36,9 @@ module.exports = function(){
     app.all('/api/*', authorizeUser); // to authorise secured users.
     
     app.all('/', function(req, res, next) {
-        console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$", req.session);
         if(req.session.user) {
             res.locals.user = req.session.user;
             res.locals.userLoggedIn = true;
-            console.log('locals', res.locals);
         }else {
             res.locals.userLoggedIn = false;
         }

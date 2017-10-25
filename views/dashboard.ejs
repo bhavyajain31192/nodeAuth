@@ -8,7 +8,7 @@
         </thead>
         <tfoot>
             <tr>
-                <th>Name</th>
+                <th>Name </th>
                 <th>Quantity</th>
                 <th>Actions</th>
             </tr>
@@ -18,9 +18,10 @@
         <tr>
             <td><%= item.name %> </td>
             <td><%= item.qty %></td>
-            <td> <a title="Edit this item" href=<%= '/inventory/edit/'+item._id %> class="edit fa-primary glyphicon glyphicon-edit"></a>
+            <td> <a title="Edit this item"  href=<%= '/inventory/edit/'+item._id %> class="
+            <%=user.permissions.indexOf('inventory.edit') < 0 ? "disabled" : " " %> edit fa-primary glyphicon glyphicon-edit"></a>
             &nbsp;
-             <a title="Delete this item"  item=<%= item._id %> class="deleteInventoryItem bg-danger glyphicon glyphicon-trash"></a></td>
+             <a title="Delete this item"  item=<%= item._id %> class=" <%=user.permissions.indexOf('inventory.delete') < 0 ? "disabled" : " " %> deleteInventoryItem bg-danger glyphicon glyphicon-trash"></a></td>
         </tr>
     <% }); %>
         </tbody>

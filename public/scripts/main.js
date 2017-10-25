@@ -32,6 +32,7 @@ $(document).ready(function() {
         $.post('/signup', data, function(data) {
             console.log(data);
             if(data.token) {
+                Cookies.set('access_token', data.token);
                 window.location.href = '/';
             }
         })
@@ -80,5 +81,10 @@ $(document).ready(function() {
             }
             }
          });
+    });
+     //disabled function
+   $('.disabled').click(function(e){
+    e.preventDefault;
+    alert('User is not allowed to access this resource');
     });
 });    

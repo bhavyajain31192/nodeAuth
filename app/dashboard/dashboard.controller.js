@@ -9,7 +9,7 @@ exports.getUsers = function (req,res,next) {
         if(!results){
             res.status(404).json("No data");
         }else{
-            res.render('dashboard', { items: results });
+            res.render('dashboard', { items: results, user: req.session.user });
         }
     });
 };

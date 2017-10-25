@@ -8,7 +8,11 @@ module.exports = function (app) {
             if(!req.session.user) {
                 return res.redirect('/');
             }
+            if(req.session.user.permissions && req.session.user.permissions.indexOf('inventory.create') < 0){
+                return res.redirect('/');
+            }
             res.locals.userLoggedIn = true;
+            res.locals.user = req.session.user;
             return inventoryController.createInventoryPage(req, res, next);
         });
     app.route('/inventory/edit/:id')
@@ -16,14 +20,35 @@ module.exports = function (app) {
             if(!req.session.user) {
                 return res.redirect('/');
             }
+             if(req.session.user.permissions && req.session.user.permissions.indexOf('inventory.edit') < 0){
+                return res.redirect('/');
+            }
             res.locals.userLoggedIn = true;
+            res.locals.user = req.session.user;
             return inventoryController.editInventoryPage(req, res, next);
         })
     app.route('/api/inventory')
-    .post(inventoryController.createItem);
+    .post(function(req,res,next){
+        if(req.user.permissions && req.user.permissions.indexOf('inventory.create') < 0){
+            return res.status(403).send({success:false, message: 'Permission denied'});
+        }
+        return inventoryController.createItem(req,res,next);
+
+    });
     app.route('/api/inventory/:id')
-    .post(inventoryController.editItem);
+    .post(function(req,res,next){
+        if(req.user.permissions && req.user.permissions.indexOf('inventory.edit') < 0){
+            return res.status(403).send({success:false, message: 'Permission denied'});
+        }
+        return inventoryController.editItem(req,res,next);
+    });
     app.route('/api/inventory/:id')
-    .delete(inventoryController.deleteItem);
+    .delete(
+        function(req,res,next){
+        if(req.user.permissions && req.user.permissions.indexOf('inventory.delete') < 0){
+            return res.status(403).send({success:false, message: 'Permission denied'});
+        }
+        return inventoryController.deleteItem(req,res,next);
+    });
 
 };

@@ -5,7 +5,6 @@ var role= require('mongoose').model('role');
 module.exports = function(req, res, next) {
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['authorization'];
-    console.log('First Session', req.session);
     // decode token
     if (token) {
 
@@ -29,9 +28,9 @@ module.exports = function(req, res, next) {
                             message: 'Authentication failed. User not found.'
                         });
                     } else if (user) {
-                        role.find( { "id" : { $in : decoded.roles }  }, function(err, permissions) {
-                            console.log('permissions', permissions);
+                        role.find( { "_id" : { $in : decoded.roles }  }, function(err, roles) {
                              req.user = decoded;
+                             req.user.permissions = roles[0].permissions;
                              next();
                         });
                        

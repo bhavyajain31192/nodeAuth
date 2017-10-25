@@ -20,20 +20,24 @@ exports.createUser = function (req,res,next) {
     req.body.pass = hash;
     var user = new userModel(req.body);
     userModel.findOne({ num: req.body.num }, function(err,userDetails){
-        console.log('userDetails, ', userDetails);
         if(!userDetails){
             user.save(function (err, results) {
                 if(err) {
                     next({Error : err});
                     return;
                 }
-                var tokenData = jwt.sign({uid: results._id}, process.env.JWTSIGNATURE,  { expiresIn: '60 days' });
+                var tokenData = jwt.sign({uid: results._id, roles: results.roles}, process.env.JWTSIGNATURE,  { expiresIn: '60 days' });
                 var access = new accessModel({token: tokenData,num: req.body.num});
                 access.save(function(err, accessRes){
                     req.session.user = { id: results._id };
-                    res.locals.user= results
-                    res.locals.userLoggedIn = true;
-                    res.status(200).json({success: true, token: accessRes.token});
+                    role.find( { "_id" : { $in : results.roles }  }, function(err, roles) {
+                        req.session.user = { id: results._id};
+                        res.locals.user= results
+                        res.locals.userLoggedIn = true;
+                        req.session.user.permissions = roles[0].permissions;
+                        res.status(200).json({success: true, token: accessRes.token});
+                    });
+                    // res.status(200).json({success: true, token: accessRes.token});
                 });    
             });
         }
@@ -45,7 +49,6 @@ exports.createUser = function (req,res,next) {
 
 exports.login = function (req,res,next) { 
     userModel.findOne({num: req.body.num}).then(function(results){
-        console.log('results', results, req.body);
         var passValidation = bcrypt.compareSync(req.body.pass, results.pass); // true
         if(!passValidation){
             res.status(404).json({success:false, message: "Password is invalid." }); 
@@ -53,13 +56,11 @@ exports.login = function (req,res,next) {
             var tokenData = jwt.sign({uid: results._id, roles: results.roles }, process.env.JWTSIGNATURE,  { expiresIn: '60 days' });
                 var access = new accessModel({token: tokenData,num: req.body.num});
                 access.save(function(err, accessRes){
-                    console.log('session', req.session);
-                    req.session.user = { id: results._id};
-                    res.locals.user= results
-                    res.locals.userLoggedIn = true;
-                    
-                    console.log("User", req.session);
-                    res.status(200).json({success: true, token: accessRes.token});
+                    role.find( { "_id" : { $in : results.roles }  }, function(err, roles) {
+                        req.session.user = { id: results._id};
+                        req.session.user.permissions = roles[0].permissions;
+                        res.status(200).json({success: true, token: accessRes.token});
+                    });
                 });   
         }
     }).catch(function(err){
@@ -80,7 +81,6 @@ exports.getUsers = function (req,res,next) {
 };
 
 exports.renderSignupPage = function (req,res,next) {
-      console.log('renderingg....');
       role.find({}, function(err, roles) {
         
          res.render('signup', { userLoggedIn: false, roles: roles });
@@ -106,7 +106,6 @@ exports.authorize = function(req, res) {
             if (user.password != req.body.password) {
                 res.json({ success: false, message: 'Authentication failed. Wrong password.' });
             } else {
-                console.log("fhjdh",process.env.JWTSIGNATURE);
                 // if user is found and password is right
                 // create a token
                 var token =  jwt.sign(user, process.env.JWTSIGNATURE, { expiresIn: '60 days' }) ;
